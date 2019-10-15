@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-
 struct node
 {
  int data;
@@ -21,26 +20,34 @@ int main()
 	while(1)
 	{
 
-	 printf("Press 1 to enter the node at the beginning of List\nPress 2 to add the node somewhere in the middle\nPress 3 to insert the node at the end of list\nPress 4 to delete the node from the beginning of the list\nPress 5 to delete the node from somewhere between the linked list \nPress 6 to delete the last node from linked list\nPress 7 to display Linked List\n");
-	 printf("enter choice");
+	printf("\nPress 1 to enter the node at the beginning of List\n");
+    printf("Press 2 to add the node somewhere in the middle\n");
+    printf("Press 3 to insert the node at the end of list\n");
+    printf("Press 4 to delete the node from the beginning of the list\n");
+    printf("Press 5 to delete the node from somewhere between the linked list\n");
+    printf("Press 6 to delete the last node from linked list\n");
+    printf("Press 7 to display Linked List\n");
+
+	 printf("\nenter choice");
 	 scanf("%d",&choice);
+
 	 switch(choice)
 	 {
 	case 1:
 	      insertAtbegin(head);
 	      printf("done");
-		break;
+		  break;
 	case 2:
 	     insertInbetween(head);
 	     printf("done");
 	     break;
 	case 3:
 	     insertend(head);
-             printf("done");
+         printf("done");
 	     break;
 	case 4:
         deleteFirstnode(head);
-	printf("done");
+	    printf("done");
         break;
 	case 5:
 	     deleteInbetween(head);
@@ -48,11 +55,11 @@ int main()
 	     break;
     case 6:
         deleteLastnode(head);
-	printf("done");
-	break;
+	    printf("done");
+	    break;
 	case 7:
-	     display(head);
-	     break;
+	    display(head);
+	    break;
 }
 }
 }
@@ -133,7 +140,7 @@ void display( struct node *temp)
 
     while(temp)
     {
-	    printf("%d\n",temp->data);
+	    printf("%d -->",temp->data);
 	    temp=temp->next;
 
   }
