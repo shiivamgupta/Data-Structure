@@ -20,7 +20,7 @@ int main()
 	while(1)
 	{
 
-	printf("\nPress 1 to enter the node at the beginning of List\n");
+    printf("\nPress 1 to enter the node at the beginning of List\n");
     printf("Press 2 to add the node somewhere in the middle\n");
     printf("Press 3 to insert the node at the end of list\n");
     printf("Press 4 to delete the node from the beginning of the list\n");
