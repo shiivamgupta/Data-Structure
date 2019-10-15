@@ -1,7 +1,7 @@
 #include<stdio.h>
 
 struct node {
-	int x;
+	int  x;
 	char y;
 	struct node *next;
 };
@@ -12,38 +12,46 @@ void insertAtPos(struct node **, int, char, int);
 void display(struct node *);
 void delAtBeg(struct node **);
 void delAtEnd(struct node **);
-int main(){
+
+int main()
+{
 	struct node *head=NULL;
 	int choice ;
 	int x, pos;
 	char y;
-	while(1){
-	printf("enter 1 insertaAtEnd 4 insertAtBeg\n");
-	printf("enter 2 to display 5 insertAtPos\n");
-	printf("enter 6 to delAtBeg 7 delAtEnd\n");
-	printf("enter 3 to exit\n");
+
+	while(1)
+{
+	printf("\nenter 1 insertaAtEnd\n");
+    printf("enter 2 to display\n");
+    printf("enter 3 to exit\n");
+    printf("enter 4 insertAtBeg\n");
+    printf("enter 5 insertAtPos\n");
+	printf("enter 6 to delAtBeg\n");
+    printf("enter 7 delAtEnd\n");
+
+	printf("\nEnter the choice:");
 	scanf("%d", &choice);
-	switch(choice){
+
+	switch(choice)
+{
 		case 1:
 		printf("enter 2 vals int c\n");
 		scanf("%d %c", &x, &y);
 		insertAtEnd(&head ,x, y);
 		break;
-		
-		case 6:
-		delAtBeg(&head);
-		break;
-
-		case 7: 
-		delAtEnd(&head);
-		break;
-
-		case 2:
+        
+        case 2:
 		printf("------linklist-------\n");
 		display(head);
 		break;
 		
-		case 4:
+        case 3:
+		exit(0);	
+		deault:
+		printf("enter right choice\n");
+		
+    	case 4:
 		printf("enter 2 vals int c\n");
 		scanf("%d %c", &x, &y);
 		insertAtBeg(&head ,x, y);
@@ -54,11 +62,18 @@ int main(){
 		scanf("%d %c %d", &x, &y, &pos);
 		insertAtPos(&head ,x, y, pos);
 		break;
-		
-		case 3:
-			exit(0);	
-		deault:
-		  printf("enter right choice\n");
+
+        case 6:
+		delAtBeg(&head);
+        printf("------linklist-------\n");
+		display(head);
+		break;
+
+		case 7: 
+		delAtEnd(&head);
+        printf("------linklist-------\n");
+		display(head);
+		break;	
 	}
 	}
 }
@@ -73,12 +88,14 @@ void delAtEnd(struct node **q){
 	free(t1);
 	t2->next=NULL;
 }
+
 void delAtBeg(struct node **q){
 	struct node *t;
 	t=*q;
 	*q=t->next;
 	free(t);
 }
+
 void insertAtPos(struct node **q, int x1, char ch, int pos){
 	struct node *t;
 	int i=0;
@@ -94,6 +111,7 @@ void insertAtPos(struct node **q, int x1, char ch, int pos){
 	t->next=t1->next;
 	t1->next=t;	
 }
+
 void insertAtBeg(struct node **q, int x1, char ch){
 	struct node *t;
 	t=(struct node *)malloc(sizeof(struct node));
@@ -104,6 +122,7 @@ void insertAtBeg(struct node **q, int x1, char ch){
 	t->next=*q;
 	*q=t;
 }
+
 void insertAtEnd(struct node **q, int x1, char ch){
 	struct node *t;
   t=(struct node *)malloc(sizeof(struct node));
@@ -129,10 +148,3 @@ void display(struct node *t){
 	}
 	printf("\n");
 }
-
-
-
-
-
-
-
