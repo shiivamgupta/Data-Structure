@@ -1,442 +1,223 @@
-#include<stdio.h>
+#include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
+struct bank_employee
+{
+	    int acc_no;
+	    char name[10];
+            float balence;
+	    struct bank_employee *next;
+			    
+}*head=NULL;
 
-struct acc {
-	int acc_no;
-	char name[20];
-       unsigned int acc_bal;
-      struct acc * next;
-};
+void add_account(struct bank_employee**,int,char [],float);
+void del_account(struct bank_employee**,int);
+void low_balence(struct bank_employee**);
+void search(struct bank_employee**,int);
+void modify(struct bank_employee**,int);
+void display(struct bank_employee**);
 
-void create_acc(struct acc **,char [20], int); // create account
-void display(struct acc *);  // diplay details of all accounts
-void del_acc(struct acc**,int); // delete account for a given acc no
-void del(struct acc**);//delte account for bal < 1000
-void search(struct acc**, int);
-void deposit(struct acc**, int, int);
-void withdraw(struct acc**, int, int);
-
-int main(){
-	int ch,acc_bal,sub,deposit_amount;
-	 int acc_no;
-         unsigned int deposit_a,withdraw_a;
-	char name[20];
-   	 struct acc * head=NULL;     //start pointer of linked list
-       while(1){   
-	printf("\n1)create account \n2)diplay account details\n3)delete account\n4)delete accounts with low balance\n5)search for an account\n6)deposit an amount to an account no.\n7) withdraw an amount\n8)exit\n");
-		printf("\nenter your choice\n");
-		scanf("%d",&ch);
-		switch(ch)
-		{
-			case 1:
-				printf("enter name\n");
-				scanf("%s",name);
-				printf("\nenter the amount to be submitted\n");
-				scanf("%d",&deposit_amount);
-				create_acc(&head,name,deposit_amount);
-				acc_no++;
+int main()
+{
+	    int ch,an;
+	    char n[10];
+	    float b;
+	    while(1)
+	    {
+	    	    printf("\nEnter choice\n");
+	    	    printf("1.add_account\n2.delet account\n3.exit\n4.display\n5.delete accounts with less balence\n6.search account\n7.modify\n");
+	    	    scanf("%d",&ch);
+		    switch(ch)
+		    {
+			case 1: printf("Enter acc_no,name,sal\n");																               	scanf("%d %s %f",&an,n,&b);
+				add_account(&head,an,n,b);				
 				break;
-			case 2:
-				display(head);
+
+			case 2: printf("Enter account no to delet\n");
+				scanf("%d",&an);
+				del_account(&head,an);
 				break;
-	
-			case 3:
-				
-					printf("\nenter acc. no\n");
-					scanf("%d",&acc_no);
-					del_acc(&head,acc_no);
-				        break;
-			case 4:
-                                 
-					  del(&head);
-			  		  break;
-			case 5:
 
-                           printf("enter the account no. to be searched\n");
-                           scanf("%d",&acc_no);
-                           search(&head,acc_no);
-                           break;
-			
-			case 6:
-                            printf("enter the account no. and amount to be deposit\n");
-                            scanf("%d %u",&acc_no,&deposit_a);
-                            deposit(&head,acc_no,deposit_a);
-			    break;
-			
-			case 7:
-                            printf("enter the account no. and amount to be withdraw\n");
-                            scanf("%d %u",&acc_no,&withdraw_a);
-                            withdraw(&head,acc_no,withdraw_a);
-			    break;
+			case 3:exit(0);
 
-			case 8:
-				exit(0);
-			default:
-				printf("enter the right choice");
-}}}
+			case 4:display(&head);
+			       break;
 
-void create_acc(struct acc **h,char name[20], int sub){
-	 static  int no=100;  //acc no  must be unique and we need to keep track of it
-          struct acc * temp=(struct acc *)malloc(sizeof(struct acc));
+			case 5:low_balence(&head);
+			       break;
 
-               strcpy(temp->name,name);
-               temp->acc_bal=sub;
-	       temp->acc_no=no++;
-	       temp->next=NULL; 
-          struct acc *t;
-	  t=*h;// t is now start pointer
-          if(t==NULL) {          // i.e no account existing
-	       *h=temp;
+			case 6:printf("search account no\n");
+			       scanf("%d",&an);
+			       search(&head,an);
+			       break;
+
+			case 7:printf("\nWhich account to modify\n");
+			       scanf("%d",&an);
+			       modify(&head,an);
+			       break;
+
+			default: printf("Invalid choice\n");
+		    }
 	  }
-	  else{
-		  while(t->next!=NULL){          // traverse till last node
-		     t=t->next;
-		  }
-                  t->next=temp; 
-               }
+return 0;
 }
-void display(struct acc *h){
-	if(h==NULL)
-		printf("\n no account exist");   
-	else{
-        while(h!=NULL){
-	    printf("\n");	
-	    printf("\n Name %s \n Account number %d \n balance  %d\n",h->name,h->acc_no,h->acc_bal);
-	    h=h->next;
+
+void add_account(struct bank_employee **r_head,int an,char n[10],float b)
+{
+	struct bank_employee *temp,*new;
+	temp = *r_head;
+	new=(struct bank_employee *)malloc(sizeof(struct bank_employee));
+	new->acc_no = an;
+	strcpy(new->name,n);
+	new->balence = b;      
+	new->next = NULL;     //creat one temp node
+	if(*r_head == NULL)    //creat head node
+	{
+		*r_head = new;
 	}
-	 
-	}
-}
-void del_acc(struct acc **h,int acc_no){
-            struct acc *t=*h,*temp;
-	    if(t->acc_no==acc_no){    //very first account has to be deleted and it will change the start pointer
-	           temp=t->next;
-		   free(t);
-		   *h=temp;   //head now points to 2nd node;
-	    }
-	    else{ while(t->next->acc_no !=acc_no && t->next->next!=NULL)
-		         t=t->next;
-			 if(t->next->acc_no==acc_no){
-				 if(t->next->next==NULL){   //e.i last node
-				    free(  t->next->next);
-				    t->next=NULL;
-				 }
-				 else{   //when node is in between
-				     temp=t->next->next;
-				     free(t->next);
-				     t->next=temp;
-				 }
-
-			 }
-			 else
-				 printf("account not found\n");
-			 
-         	}
-}
-
-void del(struct acc **h){//delte account for bal < 1000
-            struct acc *t=*h,*temp;
-	    if(t->acc_bal<1000){                //if first node has bal <1000
-	           temp=t->next;
-		   free(t);
-		   *h=temp;   //head now points to 2nd node;
-	    }
-	    
-	     
-		      while(t->next->next!=NULL){
-		                if(t->next->acc_bal<1000){
-			 
-				 if(t->next->next==NULL){      //e.i last node
-				    free(  t->next->next);
-				    t->next=NULL;
-				 }
-				 else{                         //when node is in between
-				     temp=t->next->next;
-				     free(t->next);
-				     t->next=temp;
-				 }
-				 t=t->next;
-                        }
-                       t=t->next;
-			 
-	             }         	
-	         }
-
-void search(struct acc**q,int an){
-struct acc *t;
-t=*q;
-
-
-	while(t->acc_no!=an){
-	t=t->next;
-	if(t==NULL){
-	printf("Account no not found\n");
-	break;
-	}
- 	                 }
-if(t!=NULL){
-printf("account no. %d found and its balance is %d\n",t->acc_no,t->acc_bal);
-}
-}
-
-void deposit(struct acc **q,int an,int d)
-{#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-
-struct acc {
-	int acc_no;
-	char name[20];
-       unsigned int acc_bal;
-      struct acc * next;
-};
-
-void create_acc(struct acc **,char [20], int); // create account
-void display(struct acc *);  // diplay details of all accounts
-void del_acc(struct acc**,int); // delete account for a given acc no
-void del(struct acc**);//delte account for bal < 1000
-void search(struct acc**, int);
-void deposit(struct acc**, int, int);
-void withdraw(struct acc**, int, int);
-
-int main(){
-	int ch,acc_bal,sub,deposit_amount;
-	 int acc_no;
-         unsigned int deposit_a,withdraw_a;
-	char name[20];
-   	 struct acc * head=NULL;     //start pointer of linked list
-       while(1){   
-	printf("\n1)create account \n2)diplay account details\n3)delete account\n4)delete accounts with low balance\n5)search for an account\n6)deposit an amount to an account no.\n7) withdraw an amount\n8)exit\n");
-		printf("\nenter your choice\n");
-		scanf("%d",&ch);
-		switch(ch)
+	else
+	{
+		while(temp->next != NULL)
 		{
-			case 1:
-				printf("enter name\n");
-				scanf("%s",name);
-				printf("\nenter the amount to be submitted\n");
-				scanf("%d",&deposit_amount);
-				create_acc(&head,name,deposit_amount);
-				acc_no++;
-				break;
-			case 2:
-				display(head);
-				break;
-	
-			case 3:
-				
-					printf("\nenter acc. no\n");
-					scanf("%d",&acc_no);
-					del_acc(&head,acc_no);
-				        break;
-			case 4:
-                                 
-					  del(&head);
-			  		  break;
-			case 5:
+			temp = temp->next;
+		}
+		temp->next = new; 
+	}
 
-                           printf("enter the account no. to be searched\n");
-                           scanf("%d",&acc_no);
-                           search(&head,acc_no);
-                           break;
+}
+
+void del_account(struct bank_employee **r_head,int an)
+{
+	struct bank_employee *temp,*prev_temp;
+	temp = *r_head;
+	while(temp->acc_no != an)
+	{
+		prev_temp = temp;
+		temp = temp->next;
+	}
+	if(temp == *r_head)
+	{
+		*r_head = temp->next;
+	}
+	else
+	{
+		prev_temp->next = temp->next;
+	}
+	free(temp);
+}
+
+
+void display(struct bank_employee **r_head)
+{
+	struct bank_employee *temp;
+	temp = *r_head;
+	while(temp != NULL)
+	{
+		printf("\nacc_no=%d\nname=%s\nbalence=%f\n\n",temp->acc_no,temp->name,temp->balence);
+		temp = temp->next;
+	}
+}
+
+void low_balence(struct bank_employee **r_head)
+{
+	struct bank_employee *temp;
+	temp = *r_head;
+	while(temp != NULL)
+	{
+		if(temp->balence < 1000)
+		{
+			del_account(&head,temp->acc_no);
+		}
+		temp = temp->next;
+	}
+}
+
+void search(struct bank_employee **r_head, int an)
+{
+	struct bank_employee *temp;
+	temp = *r_head;
+	while(temp!=NULL)
+	{
+		if(temp->acc_no == an)
+		{
+			printf("Account found details are =>\n");
+			printf("Account no=%d\nAccounr holder name=%s\nAccount balence=%f\n",temp->acc_no,temp->name,temp->balence);
+			break;
+		}
+		else
+		{
+			temp = temp->next;
+		}
+	}
+	if(temp == NULL)
+	{
+		printf("Account not present\n");
+	}
+}
 			
-			case 6:
-                            printf("enter the account no. and amount to be deposit\n");
-                            scanf("%d %u",&acc_no,&deposit_a);
-                            deposit(&head,acc_no,deposit_a);
-			    break;
-			
-			case 7:
-                            printf("enter the account no. and amount to be withdraw\n");
-                            scanf("%d %u",&acc_no,&withdraw_a);
-                            withdraw(&head,acc_no,withdraw_a);
-			    break;
-
-			case 8:
-				exit(0);
-			default:
-				printf("enter the right choice");
-}}}
-
-void create_acc(struct acc **h,char name[20], int sub){
-	 static  int no=100;  //acc no  must be unique and we need to keep track of it
-          struct acc * temp=(struct acc *)malloc(sizeof(struct acc));
-
-               strcpy(temp->name,name);
-               temp->acc_bal=sub;
-	       temp->acc_no=no++;
-	       temp->next=NULL; 
-          struct acc *t;
-	  t=*h;// t is now start pointer
-          if(t==NULL) {          // i.e no account existing
-	       *h=temp;
-	  }
-	  else{
-		  while(t->next!=NULL){          // traverse till last node
-		     t=t->next;
-		  }
-                  t->next=temp; 
-               }
-}
-void display(struct acc *h){
-	if(h==NULL)
-		printf("\n no account exist");   
-	else{
-        while(h!=NULL){
-	    printf("\n");	
-	    printf("\n Name %s \n Account number %d \n balance  %d\n",h->name,h->acc_no,h->acc_bal);
-	    h=h->next;
-	}
-	 
-	}
-}
-void del_acc(struct acc **h,int acc_no){
-            struct acc *t=*h,*temp;
-	    if(t->acc_no==acc_no){    //very first account has to be deleted and it will change the start pointer
-	           temp=t->next;
-		   free(t);
-		   *h=temp;   //head now points to 2nd node;
-	    }
-	    else{ while(t->next->acc_no !=acc_no && t->next->next!=NULL)
-		         t=t->next;
-			 if(t->next->acc_no==acc_no){
-				 if(t->next->next==NULL){   //e.i last node
-				    free(  t->next->next);
-				    t->next=NULL;
-				 }
-				 else{   //when node is in between
-				     temp=t->next->next;
-				     free(t->next);
-				     t->next=temp;
-				 }
-
-			 }
-			 else
-				 printf("account not found\n");
-			 
-         	}
-}
-
-void del(struct acc **h){//delte account for bal < 1000
-            struct acc *t=*h,*temp;
-	    if(t->acc_bal<1000){                //if first node has bal <1000
-	           temp=t->next;
-		   free(t);
-		   *h=temp;   //head now points to 2nd node;
-	    }
-	    
-	     
-		      while(t->next->next!=NULL){
-		                if(t->next->acc_bal<1000){
-			 
-				 if(t->next->next==NULL){      //e.i last node
-				    free(  t->next->next);
-				    t->next=NULL;
-				 }
-				 else{                         //when node is in between
-				     temp=t->next->next;
-				     free(t->next);
-				     t->next=temp;
-				 }
-				 t=t->next;
-                        }
-                       t=t->next;
-			 
-	             }         	
-	         }
-
-void search(struct acc**q,int an){
-struct acc *t;
-t=*q;
-
-
-	while(t->acc_no!=an){
-	t=t->next;
-	if(t==NULL){
-	printf("Account no not found\n");
-	break;
-	}
- 	                 }
-if(t!=NULL){
-printf("account no. %d found and its balance is %d\n",t->acc_no,t->acc_bal);
-}
-}
-
-void deposit(struct acc **q,int an,int d)
+void modify(struct bank_employee **r_head,int an)
 {
-struct acc *t;
-t=*q;
-
-
-   while(t->acc_no!=an){
-        t=t->next;
-        if(t==NULL){
-        printf("Account no not found\n");
-        break;
-        }
-                         }
-if(t!=NULL){
-printf("account no. %d found",t->acc_no);
-t->acc_bal+=d;
-printf("account balance is %u",t->acc_bal);
-}
-}
-void withdraw(struct acc **q,int an,int w)
-{
-struct acc *t;
-t=*q;
-
-
-   while(t->acc_no!=an){
-        t=t->next;
-        if(t==NULL){
-        printf("Account no not found\n");
-        break;
-        }
-                         }
-if(t!=NULL){
-printf("account no. %d found",t->acc_no);
-t->acc_bal-=w;
-printf("\naccount balance is %u",t->acc_bal);
-}
-}
-
-
-struct acc *t;
-t=*q;
-
-
-   while(t->acc_no!=an){
-        t=t->next;
-        if(t==NULL){
-        printf("Account no not found\n");
-        break;
-        }
-                         }
-if(t!=NULL){
-printf("account no. %d found",t->acc_no);
-t->acc_bal+=d;
-printf("account balance is %u",t->acc_bal);
-}
-}
-void withdraw(struct acc **q,int an,int w)
-{
-struct acc *t;
-t=*q;
-
-
-   while(t->acc_no!=an){
-        t=t->next;
-        if(t==NULL){
-        printf("Account no not found\n");
-        break;
-        }
-                         }
-if(t!=NULL){
-printf("account no. %d found",t->acc_no);
-t->acc_bal-=w;
-printf("\naccount balance is %u",t->acc_bal);
-}
+	int ch1,ch2,amt,flag=0;
+	struct bank_employee *temp;
+	temp = *r_head;
+	while(temp!=NULL)
+	{
+		if(temp->acc_no == an)
+		{
+			printf("\nAccount found details are =>\n");
+			printf("Account no=%d\nAccounr holder name=%s\nAccount balence=%f\n",temp->acc_no,temp->name,temp->balence);
+			printf("\nWhich parameter you want to modify \n1.account no \n2.account holder name \n3.balence\n");
+			scanf("%d",&ch1);
+			switch(ch1)
+			{
+				case 1:printf("Enter new account no\n");
+				       scanf("%d",&temp->acc_no);
+					break;
+				case 2:printf("Enter new account holder name\n");
+				       scanf("%s",temp->name);
+				       break;
+				case 3:printf("1.credit\n2.delet\n");
+					scanf("%d",&ch2);
+					switch(ch2)
+					{
+						case 1:printf("Enter amount\n");
+						       scanf("%d",&amt);
+						       flag=1;
+						       temp->balence = temp->balence + amt;
+						       if(temp->balence > 50000)
+						       {
+							       printf("Sorry, you cant store more than 50,000 /- in your account\n");
+						       	       temp->balence = temp->balence - amt;
+						       }
+							       
+						       break;
+						case 2:printf("Enter amount\n");
+						       scanf("%d",&amt);
+						       flag=1;
+						       if(amt > temp->balence)
+						       {
+							       printf("Sorry, less balence\n");
+						       }
+						       else
+						       {
+						       		temp->balence = temp->balence - amt;
+						       }
+						       break;
+					}
+			}
+		}
+		else
+		{
+			temp = temp->next;
+		}
+		if(flag==1)
+		{
+			break;
+		}
+	}
+	if(temp == NULL)
+	{
+		printf("Account not present\n");
+	}
 }
 
