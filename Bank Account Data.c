@@ -29,7 +29,8 @@ int main()
 	    	    scanf("%d",&ch);
 		    switch(ch)
 		    {
-			case 1: printf("Enter acc_no,name,sal\n");																               	scanf("%d %s %f",&an,n,&b);
+			case 1: printf("Enter acc_no,name,sal\n");																               	
+            scanf("%d %[^\n]%*c %f",&an,n,&b);
 				add_account(&head,an,n,b);				
 				break;
 
