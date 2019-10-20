@@ -1,21 +1,21 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include<string.h>
-struct bank_employee
+struct bank_Holder
 {
 	    int acc_no;
 	    char name[10];
-            float balence;
-	    struct bank_employee *next;
+            float balance;
+	    struct bank_Holder *next;
 			    
 }*head=NULL;
 
-void add_account(struct bank_employee**,int,char [],float);
-void del_account(struct bank_employee**,int);
-void low_balence(struct bank_employee**);
-void search(struct bank_employee**,int);
-void modify(struct bank_employee**,int);
-void display(struct bank_employee**);
+void add_account(struct bank_Holder**,int,char [],float);
+void del_account(struct bank_Holder**,int);
+void low_balance(struct bank_Holder**);
+void search(struct bank_Holder**,int);
+void modify(struct bank_Holder**,int);
+void display(struct bank_Holder**);
 
 int main()
 {
@@ -25,7 +25,7 @@ int main()
 	    while(1)
 	    {
 	    	    printf("\nEnter choice\n");
-	    	    printf("1.add_account\n2.delet account\n3.exit\n4.display\n5.delete accounts with less balence\n6.search account\n7.modify\n");
+	    	    printf("1.add_account\n2.delet account\n3.exit\n4.display\n5.delete accounts with less balance\n6.search account\n7.modify\n");
 	    	    scanf("%d",&ch);
 		    switch(ch)
 		    {
@@ -43,7 +43,7 @@ int main()
 			case 4:display(&head);
 			       break;
 
-			case 5:low_balence(&head);
+			case 5:low_balance(&head);
 			       break;
 
 			case 6:printf("search account no\n");
@@ -62,14 +62,14 @@ int main()
 return 0;
 }
 
-void add_account(struct bank_employee **r_head,int an,char n[10],float b)
+void add_account(struct bank_Holder **r_head,int an,char n[10],float b)
 {
-	struct bank_employee *temp,*new;
+	struct bank_Holder *temp,*new;
 	temp = *r_head;
-	new=(struct bank_employee *)malloc(sizeof(struct bank_employee));
+	new=(struct bank_Holder *)malloc(sizeof(struct bank_Holder));
 	new->acc_no = an;
 	strcpy(new->name,n);
-	new->balence = b;      
+	new->balance = b;      
 	new->next = NULL;     //creat one temp node
 	if(*r_head == NULL)    //creat head node
 	{
@@ -86,9 +86,9 @@ void add_account(struct bank_employee **r_head,int an,char n[10],float b)
 
 }
 
-void del_account(struct bank_employee **r_head,int an)
+void del_account(struct bank_Holder **r_head,int an)
 {
-	struct bank_employee *temp,*prev_temp;
+	struct bank_Holder *temp,*prev_temp;
 	temp = *r_head;
 	while(temp->acc_no != an)
 	{
@@ -107,24 +107,24 @@ void del_account(struct bank_employee **r_head,int an)
 }
 
 
-void display(struct bank_employee **r_head)
+void display(struct bank_Holder **r_head)
 {
-	struct bank_employee *temp;
+	struct bank_Holder *temp;
 	temp = *r_head;
 	while(temp != NULL)
 	{
-		printf("\nacc_no=%d\nname=%s\nbalence=%f\n\n",temp->acc_no,temp->name,temp->balence);
+		printf("\nacc_no=%d\nname=%s\nbalance=%f\n\n",temp->acc_no,temp->name,temp->balance);
 		temp = temp->next;
 	}
 }
 
-void low_balence(struct bank_employee **r_head)
+void low_balance(struct bank_Holder **r_head)
 {
-	struct bank_employee *temp;
+	struct bank_Holder *temp;
 	temp = *r_head;
 	while(temp != NULL)
 	{
-		if(temp->balence < 1000)
+		if(temp->balance < 1000)
 		{
 			del_account(&head,temp->acc_no);
 		}
@@ -132,16 +132,16 @@ void low_balence(struct bank_employee **r_head)
 	}
 }
 
-void search(struct bank_employee **r_head, int an)
+void search(struct bank_Holder **r_head, int an)
 {
-	struct bank_employee *temp;
+	struct bank_Holder *temp;
 	temp = *r_head;
 	while(temp!=NULL)
 	{
 		if(temp->acc_no == an)
 		{
 			printf("Account found details are =>\n");
-			printf("Account no=%d\nAccounr holder name=%s\nAccount balence=%f\n",temp->acc_no,temp->name,temp->balence);
+			printf("Account no=%d\nAccounr holder name=%s\nAccount balance=%f\n",temp->acc_no,temp->name,temp->balance);
 			break;
 		}
 		else
@@ -155,18 +155,18 @@ void search(struct bank_employee **r_head, int an)
 	}
 }
 			
-void modify(struct bank_employee **r_head,int an)
+void modify(struct bank_Holder **r_head,int an)
 {
 	int ch1,ch2,amt,flag=0;
-	struct bank_employee *temp;
+	struct bank_Holder *temp;
 	temp = *r_head;
 	while(temp!=NULL)
 	{
 		if(temp->acc_no == an)
 		{
 			printf("\nAccount found details are =>\n");
-			printf("Account no=%d\nAccounr holder name=%s\nAccount balence=%f\n",temp->acc_no,temp->name,temp->balence);
-			printf("\nWhich parameter you want to modify \n1.account no \n2.account holder name \n3.balence\n");
+			printf("Account no=%d\nAccounr holder name=%s\nAccount balance=%f\n",temp->acc_no,temp->name,temp->balance);
+			printf("\nWhich parameter you want to modify \n1.account no \n2.account holder name \n3.balance\n");
 			scanf("%d",&ch1);
 			switch(ch1)
 			{
@@ -183,24 +183,24 @@ void modify(struct bank_employee **r_head,int an)
 						case 1:printf("Enter amount\n");
 						       scanf("%d",&amt);
 						       flag=1;
-						       temp->balence = temp->balence + amt;
-						       if(temp->balence > 50000)
+						       temp->balance = temp->balance + amt;
+						       if(temp->balance > 50000)
 						       {
 							       printf("Sorry, you cant store more than 50,000 /- in your account\n");
-						       	       temp->balence = temp->balence - amt;
+						       	       temp->balance = temp->balance - amt;
 						       }
 							       
 						       break;
 						case 2:printf("Enter amount\n");
 						       scanf("%d",&amt);
 						       flag=1;
-						       if(amt > temp->balence)
+						       if(amt > temp->balance)
 						       {
-							       printf("Sorry, less balence\n");
+							       printf("Sorry, less balance\n");
 						       }
 						       else
 						       {
-						       		temp->balence = temp->balence - amt;
+						       		temp->balance = temp->balance - amt;
 						       }
 						       break;
 					}
@@ -220,4 +220,3 @@ void modify(struct bank_employee **r_head,int an)
 		printf("Account not present\n");
 	}
 }
-
