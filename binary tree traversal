@@ -1,0 +1,95 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+	int data;
+	struct node* left;
+	struct node* right;
+};
+
+struct node* new_node(int data)
+{
+	struct node* newnode=(struct node*)malloc(sizeof(struct node));
+	newnode->data=data;
+	newnode->left=NULL;
+	newnode->right=NULL;
+
+	return newnode;
+}
+
+void Inorder_print(struct node* newnode)
+{
+	if(newnode==NULL)
+		return;
+	
+		Inorder_print(newnode->left);
+
+		printf("%d->",newnode->data);
+
+		Inorder_print(newnode->right);
+
+}
+
+void Preorder_print(struct node* newnode)
+{
+	if(newnode==NULL)
+		return;
+	
+		printf("%d->",newnode->data);
+	
+		Preorder_print(newnode->left);
+
+		Preorder_print(newnode->right);
+}
+
+void Postorder_print(struct node* newnode)
+{
+	if(newnode==NULL)
+		return;
+	
+		Postorder_print(newnode->left);
+
+		Postorder_print(newnode->right);
+
+		printf("%d->",newnode->data);
+}
+
+int main()
+{	
+	int choice;
+	struct node* root=new_node(1);
+
+	root->left=new_node(2);
+	root->right=new_node(3);
+
+
+	root->left->left=new_node(4);
+	root->left->right=new_node(5);
+
+	root->right->left=new_node(6);
+	root->right->right=new_node(7);
+
+while(1)
+{	
+
+	printf("\n");
+	printf("press 1->inorder,2->preorder,3->postorder\n");
+
+	scanf("%d",&choice);
+
+	switch(choice)
+	{
+
+		case 1:	Inorder_print(root);
+			break;	
+		case 2:	Preorder_print(root);
+			break;
+		case 3:	Postorder_print(root);
+			break;
+	}	
+}
+
+
+	return 0;
+}
