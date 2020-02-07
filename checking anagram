@@ -1,0 +1,47 @@
+#include<stdio.h>
+#include<string.h>
+
+int main()
+{
+	char arr[20],arr1[20],temp;
+	int s,s1,i,j;
+	printf("enter the word whose anagram has to be checked\n");
+
+	scanf("%s",arr);
+	s=strlen(arr);
+	for(j=0;j<s-1;j++)
+	{
+		for(i=0;i<s-1;i++)
+	
+		if(arr[i+1]<arr[i])
+		{
+			temp=arr[i];
+			arr[i]=arr[i+1];
+			arr[i+1]=temp;
+		}
+	}
+
+
+	printf("enter the word which has to be checked for anagram\n");
+
+	scanf("%s",arr1);
+	s1=strlen(arr1);
+
+	for(j=0;j<s-1;j++)
+	{
+		for(i=0;i<s-1;i++)
+	
+		if(arr1[i+1]<arr1[i])
+		{
+			temp=arr1[i];
+			arr1[i]=arr1[i+1];
+			arr1[i+1]=temp;
+		}
+	}
+	
+	if(strcmp(arr,arr1)==0)
+		printf("strings are anagram\n");
+	else
+
+		printf("strings are not anagram\n");
+}
