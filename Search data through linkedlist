@@ -1,0 +1,17 @@
+int search(struct node **q, int x){
+	struct node *t1;
+	t1=*q;
+	int count=0;
+	while(t1!=NULL)
+	{
+		if((t1->x)!=x)
+		{
+			t1=t1->next;
+			count++;
+		}
+		else if((t1->x)==5)
+		{
+			return count;
+		}
+	}
+}
