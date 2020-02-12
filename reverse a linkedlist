@@ -1,0 +1,13 @@
+void reverse(struct node **q){
+	struct node *prev, *next, *t1;
+	t1=*q;
+	prev=NULL;
+	while(t1!=NULL)
+	{
+		next=t1->next;
+		t1->next=prev;
+		prev=t1;
+		t1=next;
+	}
+	*q=prev;
+}
