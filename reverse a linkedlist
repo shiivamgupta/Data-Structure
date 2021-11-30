@@ -1,6 +1,6 @@
-void reverse(struct node **q){
-	struct node *prev, *next, *t1;
-	t1=*q;
+    ListNode* reverseList(ListNode* head) {
+    ListNode *prev, *next, *t1;
+	t1=head;
 	prev=NULL;
 	while(t1!=NULL)
 	{
@@ -9,5 +9,7 @@ void reverse(struct node **q){
 		prev=t1;
 		t1=next;
 	}
-	*q=prev;
+	head=prev;
+    return prev;
 }
+};
